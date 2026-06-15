@@ -6,91 +6,61 @@
 <title>Senior Eng · Prep Tracker</title>
 <style>
   :root {
-    --bg: #09090b;
-    --surface: #18181b;
-    --surface2: #27272a;
-    --border: #3f3f46;
-    --border-subtle: #27272a;
-    --text: #fafafa;
-    --text-muted: #a1a1aa;
-    --text-dim: #71717a;
-    --text-dimmer: #52525b;
-    --radius-sm: 6px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --blue: #378ADD;
-    --purple: #8b5cf6;
-    --green: #1D9E75;
-    --amber: #EF9F27;
-    --red: #E24B4A;
+    --bg: #09090b; --surface: #18181b; --surface2: #27272a; --border: #3f3f46;
+    --border-subtle: #27272a; --text: #fafafa; --text-muted: #a1a1aa;
+    --text-dim: #71717a; --text-dimmer: #52525b;
+    --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px;
+    --blue: #378ADD; --green: #1D9E75; --red: #E24B4A; --amber: #EF9F27;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
-
-  /* Layout */
-  .app { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+  .app { max-width: 900px; margin: 0 auto; padding: 0 16px 48px; }
   header { padding: 32px 0 24px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 28px; }
   header .eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dimmer); margin-bottom: 6px; }
-  header h1 { font-size: 24px; font-weight: 700; color: var(--text); }
+  header h1 { font-size: 24px; font-weight: 700; }
   header .sub { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
-
-  /* Tabs */
   .tabs { display: flex; gap: 2px; background: var(--surface); border-radius: var(--radius-md); padding: 4px; width: fit-content; margin-bottom: 24px; }
   .tab { background: none; border: none; padding: 8px 18px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--text-dim); font-family: inherit; transition: all 0.15s; }
   .tab.active { background: var(--surface2); color: var(--text); font-weight: 600; }
   .tab:hover:not(.active) { color: var(--text-muted); }
-
-  /* Cards */
+  .tab-panel { display: none; } .tab-panel.active { display: block; }
   .card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 14px; }
   .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dimmer); margin-bottom: 16px; }
-
-  /* Metrics */
   .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
   .metric { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px; }
   .metric-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
-  .metric-value { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+  .metric-value { font-size: 26px; font-weight: 700; line-height: 1; }
   .metric-value span { font-size: 14px; font-weight: 400; }
   .metric-sub { font-size: 11px; color: var(--text-dimmer); margin-top: 4px; }
-
-  /* Phase bars */
   .phase-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
   .phase-row:last-child { margin-bottom: 0; }
   .phase-name { font-size: 12px; color: var(--text-muted); width: 130px; flex-shrink: 0; }
   .bar-track { flex: 1; height: 5px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
   .bar-pct { font-size: 11px; color: var(--text-dimmer); width: 30px; text-align: right; flex-shrink: 0; }
-
-  /* Streak */
-  .streak-wrap { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; }
+  .streak-wrap { display: grid; grid-template-columns: repeat(14,1fr); gap: 4px; }
   .streak-day { aspect-ratio: 1; border-radius: 3px; background: var(--surface2); }
   .streak-day.active { background: var(--green); }
   .streak-day.today { outline: 2px solid var(--blue); outline-offset: 1px; }
-  .streak-labels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin-bottom: 4px; }
+  .streak-labels { display: grid; grid-template-columns: repeat(14,1fr); gap: 4px; margin-bottom: 4px; }
   .streak-lbl { font-size: 9px; color: var(--text-dimmer); text-align: center; }
   .legend { display: flex; gap: 16px; margin-top: 10px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-dimmer); }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
-
-  /* Log table */
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; font-size: 11px; color: var(--text-dimmer); font-weight: 500; padding: 0 8px 10px 0; border-bottom: 1px solid var(--border-subtle); }
   td { padding: 9px 8px 9px 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
-
-  /* Badges */
   .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
   .badge-coding { background: #0c447c33; color: #85B7EB; }
   .badge-system { background: #3c348933; color: #AFA9EC; }
   .badge-behavioral { background: #08504133; color: #5DCAA5; }
-
-  /* Form */
   .form-grid { display: grid; grid-template-columns: 1fr 72px 110px 1fr; gap: 10px; margin-bottom: 10px; align-items: end; }
   .form-row { display: grid; grid-template-columns: 120px 1fr; gap: 10px; margin-bottom: 16px; align-items: end; }
   .field label { display: block; font-size: 11px; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.06em; }
   input[type="text"], input[type="date"], input[type="number"], select {
     width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
-    color: var(--text); font-family: inherit; font-size: 13px; padding: 8px 10px; outline: none;
-    transition: border-color 0.15s; -webkit-appearance: none;
+    color: var(--text); font-family: inherit; font-size: 13px; padding: 8px 10px; outline: none; transition: border-color 0.15s; -webkit-appearance: none;
   }
   input:focus, select:focus { border-color: var(--blue); }
   select option { background: var(--surface2); }
@@ -99,30 +69,37 @@
   button.ghost { background: none; border: 1px solid var(--border); color: var(--text-dim); border-radius: var(--radius-sm); padding: 4px 8px; font-family: inherit; font-size: 12px; cursor: pointer; transition: all 0.15s; }
   button.ghost:hover { border-color: var(--red); color: var(--red); }
   .toast { display: none; font-size: 12px; color: var(--green); margin-left: 12px; font-weight: 500; }
-
-  /* Topics */
-  .topic-section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); margin: 18px 0 10px; }
-  .topic-section-label:first-child { margin-top: 0; }
-  .checkbox-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-  .check-label { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-muted); cursor: pointer; padding: 5px 10px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid transparent; transition: all 0.15s; user-select: none; }
-  .check-label:hover { border-color: var(--border); }
-  .check-label input { accent-color: var(--green); cursor: pointer; width: 14px; height: 14px; }
-  .check-label.done { color: var(--text-dimmer); text-decoration: line-through; }
-
-  /* Empty state */
   .empty { text-align: center; padding: 32px; color: var(--text-dimmer); font-size: 13px; }
 
-  /* Tabs hidden */
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* Recent log limit */
-  .view-all-wrap { text-align: center; margin-top: 12px; }
-  .view-all { background: none; border: none; color: var(--text-dim); font-size: 12px; cursor: pointer; font-family: inherit; text-decoration: underline; }
-  .view-all:hover { color: var(--text); }
+  /* Topics tab */
+  .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dimmer); margin: 18px 0 10px; }
+  .section-label:first-child { margin-top: 0; }
+  .topic-list { display: flex; flex-direction: column; gap: 6px; }
+  .topic-item { border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+  .topic-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; background: var(--surface2); transition: background 0.15s; user-select: none; }
+  .topic-header:hover { background: #2f2f32; }
+  .topic-header input[type="checkbox"] { accent-color: var(--green); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+  .topic-title { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+  .topic-title.done { text-decoration: line-through; color: var(--text-dimmer); }
+  .topic-arrow { font-size: 11px; color: var(--text-dimmer); transition: transform 0.2s; }
+  .topic-arrow.open { transform: rotate(90deg); }
+  .topic-body { display: none; padding: 16px 18px; background: var(--bg); border-top: 1px solid var(--border-subtle); }
+  .topic-body.open { display: block; }
+  .topic-body h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dimmer); margin: 14px 0 6px; }
+  .topic-body h4:first-child { margin-top: 0; }
+  .topic-body p { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 8px; }
+  .topic-body ul { padding-left: 18px; margin-bottom: 8px; }
+  .topic-body ul li { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 3px; }
+  .topic-body pre { background: var(--surface2); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; line-height: 1.6; overflow-x: auto; color: #a5d6ff; margin-bottom: 8px; font-family: 'SF Mono', 'Fira Code', monospace; white-space: pre; }
+  .tip-box { background: #1D9E7511; border: 1px solid #1D9E7533; border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 10px; }
+  .tip-box p { color: #5DCAA5; font-size: 12px; margin: 0; }
+  .tip-box p::before { content: '💡 '; }
+  .warn-box { background: #EF9F2711; border: 1px solid #EF9F2733; border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 8px; }
+  .warn-box p { color: var(--amber); font-size: 12px; margin: 0; }
+  .warn-box p::before { content: '⚠️ '; }
 
   @media (max-width: 600px) {
-    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .metric-grid { grid-template-columns: repeat(2,1fr); }
     .form-grid { grid-template-columns: 1fr 1fr; }
     .form-row { grid-template-columns: 1fr; }
     th:nth-child(6), td:nth-child(6) { display: none; }
@@ -134,7 +111,7 @@
   <header>
     <div class="eyebrow">Big Tech · 3–4 month plan</div>
     <h1>Senior engineer prep tracker</h1>
-    <div class="sub">Coding · System design · Behavioral &mdash; all in one place</div>
+    <div class="sub">Coding · System design · Behavioral — all in one place</div>
   </header>
 
   <div class="tabs">
@@ -146,48 +123,22 @@
   <!-- DASHBOARD -->
   <div id="tab-dashboard" class="tab-panel active">
     <div class="metric-grid">
-      <div class="metric">
-        <div class="metric-label">Problems solved</div>
-        <div class="metric-value" id="m-problems">0</div>
-        <div class="metric-sub">target: 120</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Current streak</div>
-        <div class="metric-value" id="m-streak">0<span> days</span></div>
-        <div class="metric-sub" id="m-streak-sub">start today</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Overall progress</div>
-        <div class="metric-value" id="m-overall">0<span>%</span></div>
-        <div class="metric-sub" id="m-phase-label">Phase 1 of 5</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Sessions logged</div>
-        <div class="metric-value" id="m-sessions">0</div>
-        <div class="metric-sub">total entries</div>
-      </div>
+      <div class="metric"><div class="metric-label">Problems solved</div><div class="metric-value" id="m-problems">0</div><div class="metric-sub">target: 120</div></div>
+      <div class="metric"><div class="metric-label">Current streak</div><div class="metric-value" id="m-streak">0<span> days</span></div><div class="metric-sub" id="m-streak-sub">start today</div></div>
+      <div class="metric"><div class="metric-label">Overall progress</div><div class="metric-value" id="m-overall">0<span>%</span></div><div class="metric-sub" id="m-phase-label">Phase 1 of 5</div></div>
+      <div class="metric"><div class="metric-label">Sessions logged</div><div class="metric-value" id="m-sessions">0</div><div class="metric-sub">total entries</div></div>
     </div>
-
+    <div class="card"><div class="card-title">Phase completion</div><div id="phase-bars"></div></div>
     <div class="card">
-      <div class="card-title">Phase completion</div>
-      <div id="phase-bars"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Activity &mdash; last 14 days</div>
+      <div class="card-title">Activity — last 14 days</div>
       <div class="streak-labels" id="streak-labels"></div>
       <div class="streak-wrap" id="streak-grid"></div>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:var(--surface2)"></div>No activity</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Session logged</div>
-        <div class="legend-item"><div class="legend-dot" style="outline:2px solid var(--blue);outline-offset:1px"></div>Today</div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-title">Recent sessions</div>
-      <div id="recent-log"></div>
-    </div>
+    <div class="card"><div class="card-title">Recent sessions</div><div id="recent-log"></div></div>
   </div>
 
   <!-- LOG -->
@@ -196,19 +147,8 @@
       <div class="card-title">Log a session</div>
       <div class="form-grid">
         <div class="field"><label>Date</label><input type="date" id="f-date" /></div>
-        <div class="field"><label>Phase</label>
-          <select id="f-phase">
-            <option value="1">P1</option><option value="2">P2</option>
-            <option value="3">P3</option><option value="4">P4</option><option value="5">P5</option>
-          </select>
-        </div>
-        <div class="field"><label>Area</label>
-          <select id="f-type">
-            <option value="coding">Coding / DSA</option>
-            <option value="system">System design</option>
-            <option value="behavioral">Behavioral</option>
-          </select>
-        </div>
+        <div class="field"><label>Phase</label><select id="f-phase"><option value="1">P1</option><option value="2">P2</option><option value="3">P3</option><option value="4">P4</option><option value="5">P5</option></select></div>
+        <div class="field"><label>Area</label><select id="f-type"><option value="coding">Coding / DSA</option><option value="system">System design</option><option value="behavioral">Behavioral</option></select></div>
         <div class="field"><label>Topic</label><input type="text" id="f-topic" placeholder="e.g. BFS, URL shortener, failure story" /></div>
       </div>
       <div class="form-row">
@@ -218,60 +158,1021 @@
       <button class="primary" onclick="addEntry()">Save session</button>
       <span class="toast" id="toast">Saved!</span>
     </div>
-
-    <div class="card">
-      <div class="card-title">All sessions</div>
-      <div id="all-log"></div>
-    </div>
+    <div class="card"><div class="card-title">All sessions</div><div id="all-log"></div></div>
   </div>
 
   <!-- TOPICS -->
   <div id="tab-topics" class="tab-panel">
     <div class="card">
       <div class="card-title">Coding / DSA</div>
-      <div class="topic-section-label">Phase 1–2 · Foundation</div>
-      <div class="checkbox-grid" id="tc-coding-foundation"></div>
-      <div class="topic-section-label">Phase 3 · Depth</div>
-      <div class="checkbox-grid" id="tc-coding-depth"></div>
+      <div class="section-label">Phase 1–2 · Foundation</div>
+      <div class="topic-list" id="tc-coding-foundation"></div>
+      <div class="section-label">Phase 3 · Depth</div>
+      <div class="topic-list" id="tc-coding-depth"></div>
     </div>
     <div class="card">
       <div class="card-title">System design</div>
-      <div class="checkbox-grid" id="tc-system"></div>
+      <div class="topic-list" id="tc-system"></div>
     </div>
     <div class="card">
       <div class="card-title">Behavioral stories</div>
-      <div class="checkbox-grid" id="tc-behavioral"></div>
+      <div class="topic-list" id="tc-behavioral"></div>
     </div>
-    <div style="font-size:12px;color:var(--text-dimmer);margin-top:4px">Topics are saved automatically as you check them off.</div>
+    <div style="font-size:12px;color:var(--text-dimmer);margin-top:4px">Click any topic to expand study notes. Check it off when you feel confident.</div>
   </div>
 </div>
 
 <script>
-const TOPICS = {
-  'tc-coding-foundation': ['Arrays & strings','Hash maps','Two pointers','Sliding window','BFS / DFS','Binary search','Linked lists','Trees','Heaps / priority queues'],
-  'tc-coding-depth': ['Graphs','Dynamic programming (basic)','Tries','Backtracking'],
-  'tc-system': ['URL shortener','Notification system','E-commerce catalog','News feed','Payment processing','Rate limiter / API gateway','Design YouTube (open-ended)'],
-  'tc-behavioral': ['Technical conflict','Driving ambiguity','Cross-team influence','Failure & learning','Mentorship story','Business impact']
-};
 const PHASE_COLORS = ['#6366f1','#8b5cf6','#a855f7','#c026d3','#e11d48'];
 const PHASE_LABELS = ['P1 · Foundation','P2 · Core skills','P3 · Depth','P4 · Mock & sharpen','P5 · Final polish'];
 const PHASE_TARGETS = [15,35,40,20,10];
 
-let state = { entries: [], topics: {} };
+const TOPICS = {
+  'tc-coding-foundation': [
+    {
+      title: 'Arrays & strings',
+      body: `<h4>Core idea</h4>
+<p>The foundation of almost every coding problem. Arrays give you O(1) random access; strings are immutable arrays of chars. Most problems boil down to index manipulation and in-place transformation.</p>
+<h4>Key patterns</h4>
+<ul>
+<li>In-place reversal — swap from both ends walking inward</li>
+<li>Prefix sums — precompute cumulative totals for O(1) range queries</li>
+<li>Kadane's algorithm — max subarray in O(n)</li>
+<li>String rotation — s2 contains s1 if s2+s2 contains s1</li>
+</ul>
+<h4>Template: prefix sum</h4>
+<pre>prefix = [0] * (len(nums) + 1)
+for i, n in enumerate(nums):
+    prefix[i+1] = prefix[i] + n
+
+# Range sum [l, r] in O(1):
+total = prefix[r+1] - prefix[l]</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Two Sum, Best Time to Buy/Sell Stock</li>
+<li>Maximum Subarray (Kadane's)</li>
+<li>Product of Array Except Self</li>
+<li>Longest Common Prefix</li>
+</ul>
+<div class="tip-box"><p>Prefix sums appear constantly in interval problems. If you see "range sum" or "subarray sum", reach for this immediately.</p></div>`
+    },
+    {
+      title: 'Hash maps',
+      body: `<h4>Core idea</h4>
+<p>Hash maps trade space for time — turning O(n) lookups into O(1). Whenever you find yourself doing a nested loop to check "does X exist?", that's a signal to use a hash map instead.</p>
+<h4>Key patterns</h4>
+<ul>
+<li>Frequency count — count occurrences, then query</li>
+<li>Complement lookup — store what you need, not what you have</li>
+<li>Grouping — use tuple or sorted string as key</li>
+<li>Running state — track seen values as you iterate</li>
+</ul>
+<h4>Template: frequency + sliding window</h4>
+<pre>from collections import Counter, defaultdict
+
+freq = Counter(s)         # char frequencies
+seen = defaultdict(int)   # auto-initializes to 0
+
+# Grouping anagrams:
+groups = defaultdict(list)
+for w in words:
+    groups[tuple(sorted(w))].append(w)</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Two Sum, Group Anagrams</li>
+<li>Top K Frequent Elements</li>
+<li>Longest Consecutive Sequence</li>
+<li>Valid Anagram, Contains Duplicate</li>
+</ul>
+<div class="tip-box"><p>When you see O(n²) in your head and think "there has to be a better way" — 80% of the time the answer is a hash map.</p></div>`
+    },
+    {
+      title: 'Two pointers',
+      body: `<h4>Core idea</h4>
+<p>Use two indices moving through the array — either toward each other, in the same direction, or on two different arrays. Eliminates the need for nested loops in many sorted-array problems.</p>
+<h4>Key patterns</h4>
+<ul>
+<li>Opposite ends — start at 0 and n-1, converge based on condition</li>
+<li>Fast & slow (Floyd's) — detect cycles, find midpoints</li>
+<li>Merge two sorted arrays — advance whichever pointer is smaller</li>
+</ul>
+<h4>Template: opposite ends</h4>
+<pre>def two_sum_sorted(nums, target):
+    l, r = 0, len(nums) - 1
+    while l < r:
+        s = nums[l] + nums[r]
+        if s == target:
+            return [l, r]
+        elif s < target:
+            l += 1
+        else:
+            r -= 1</pre>
+<h4>Template: fast & slow (cycle detection)</h4>
+<pre>slow, fast = head, head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+    if slow == fast:
+        return True  # cycle</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Two Sum II, 3Sum, Container With Most Water</li>
+<li>Linked List Cycle, Find Middle of Linked List</li>
+<li>Remove Duplicates from Sorted Array</li>
+</ul>
+<div class="tip-box"><p>The trigger: sorted array + find pair/triplet that meets a condition. Always try two pointers before anything else.</p></div>`
+    },
+    {
+      title: 'Sliding window',
+      body: `<h4>Core idea</h4>
+<p>Maintain a window [l, r] over an array that expands and contracts to satisfy a constraint. Converts O(n²) brute-force substring/subarray problems into O(n).</p>
+<h4>Fixed vs variable window</h4>
+<ul>
+<li><strong>Fixed size k</strong> — slide r forward, drop nums[l] when window exceeds k</li>
+<li><strong>Variable size</strong> — expand r until constraint violated, then shrink l</li>
+</ul>
+<h4>Template: variable window</h4>
+<pre>def longest_substring_k_distinct(s, k):
+    l = 0
+    freq = defaultdict(int)
+    best = 0
+    for r in range(len(s)):
+        freq[s[r]] += 1
+        while len(freq) > k:       # constraint violated
+            freq[s[l]] -= 1
+            if freq[s[l]] == 0:
+                del freq[s[l]]
+            l += 1
+        best = max(best, r - l + 1)
+    return best</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Longest Substring Without Repeating Characters</li>
+<li>Minimum Window Substring</li>
+<li>Permutation in String</li>
+<li>Max Consecutive Ones III</li>
+</ul>
+<div class="tip-box"><p>Trigger words: "longest/shortest subarray/substring that satisfies X". If you see those, sliding window is almost always the move.</p></div>`
+    },
+    {
+      title: 'BFS / DFS',
+      body: `<h4>Core idea</h4>
+<p>BFS explores level by level using a queue — ideal for shortest paths and level-order traversal. DFS goes deep using a stack or recursion — ideal for exploring all paths, connected components, and tree problems.</p>
+<h4>BFS template</h4>
+<pre>from collections import deque
+
+def bfs(graph, start):
+    visited = {start}
+    q = deque([start])
+    while q:
+        node = q.popleft()
+        for nei in graph[node]:
+            if nei not in visited:
+                visited.add(nei)
+                q.append(nei)
+
+# Shortest path variant:
+q = deque([(start, 0)])   # (node, distance)</pre>
+<h4>DFS template</h4>
+<pre>def dfs(node, visited, graph):
+    visited.add(node)
+    for nei in graph[node]:
+        if nei not in visited:
+            dfs(nei, visited, graph)
+
+# Iterative DFS (stack):
+stack = [start]
+while stack:
+    node = stack.pop()
+    for nei in graph[node]:
+        if nei not in visited:
+            visited.add(nei)
+            stack.append(nei)</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Number of Islands, Clone Graph</li>
+<li>Word Ladder (BFS shortest path)</li>
+<li>Course Schedule (cycle detection via DFS)</li>
+<li>Pacific Atlantic Water Flow</li>
+</ul>
+<div class="tip-box"><p>BFS = shortest path in unweighted graphs. DFS = existence problems, cycle detection, connected components. Know both cold.</p></div>
+<div class="warn-box"><p>Always track visited nodes in graph problems to avoid infinite loops. In tree problems, you don't need visited since trees have no cycles.</p></div>`
+    },
+    {
+      title: 'Binary search',
+      body: `<h4>Core idea</h4>
+<p>Binary search isn't just "search a sorted array" — it's a general technique for any problem where the answer space is monotonic (if X works, X-1 also works). That insight unlocks a huge class of problems.</p>
+<h4>Template: standard</h4>
+<pre>def binary_search(nums, target):
+    l, r = 0, len(nums) - 1
+    while l <= r:
+        mid = l + (r - l) // 2   # avoids integer overflow
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            l = mid + 1
+        else:
+            r = mid - 1
+    return -1</pre>
+<h4>Template: search on answer (binary search the result)</h4>
+<pre># "Find minimum X such that condition(X) is True"
+def solve(nums, limit):
+    def feasible(capacity):
+        # check if capacity satisfies constraint
+        return True/False
+
+    l, r = min(nums), sum(nums)
+    while l < r:
+        mid = (l + r) // 2
+        if feasible(mid):
+            r = mid
+        else:
+            l = mid + 1
+    return l</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Search in Rotated Sorted Array</li>
+<li>Find Minimum in Rotated Sorted Array</li>
+<li>Koko Eating Bananas, Capacity To Ship Packages (binary search on answer)</li>
+<li>Median of Two Sorted Arrays</li>
+</ul>
+<div class="tip-box"><p>"Binary search on answer" is the most underrated pattern. If a problem asks for a minimum/maximum value that satisfies a condition, try it.</p></div>`
+    },
+    {
+      title: 'Linked lists',
+      body: `<h4>Core idea</h4>
+<p>Linked lists are all about pointer manipulation. The key insight: always draw the pointers on paper before coding. Most bugs come from losing a reference mid-operation.</p>
+<h4>Key techniques</h4>
+<ul>
+<li>Dummy head node — eliminates edge cases for insertions at head</li>
+<li>Fast & slow pointer — find middle, detect cycles</li>
+<li>Reverse in-place — three pointers: prev, curr, next</li>
+<li>Two-pass for kth from end — advance first pointer k steps, then move both</li>
+</ul>
+<h4>Template: reverse a linked list</h4>
+<pre>def reverse(head):
+    prev, curr = None, head
+    while curr:
+        nxt = curr.next    # save next
+        curr.next = prev   # reverse pointer
+        prev = curr        # advance prev
+        curr = nxt         # advance curr
+    return prev            # new head</pre>
+<h4>Template: find middle</h4>
+<pre>slow, fast = head, head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+# slow is now at middle</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Reverse Linked List, Merge Two Sorted Lists</li>
+<li>Reorder List, LRU Cache</li>
+<li>Remove Nth Node From End</li>
+</ul>
+<div class="tip-box"><p>Use a dummy head node (dummy = ListNode(0); dummy.next = head) for any problem involving removing or inserting nodes. Saves you from null-check edge cases.</p></div>`
+    },
+    {
+      title: 'Trees',
+      body: `<h4>Core idea</h4>
+<p>Most tree problems are solved with DFS recursion — define what you need to return at each node, trust the recursion to handle the rest. The key is identifying the right return value.</p>
+<h4>Traversal orders</h4>
+<ul>
+<li>Inorder (L→Root→R) — gives sorted order for BST</li>
+<li>Preorder (Root→L→R) — useful for copying/serializing trees</li>
+<li>Postorder (L→R→Root) — useful when children must be processed first</li>
+<li>Level-order (BFS) — shortest path, level-based aggregation</li>
+</ul>
+<h4>Template: general DFS pattern</h4>
+<pre>def dfs(node):
+    if not node:
+        return BASE_CASE
+
+    left = dfs(node.left)
+    right = dfs(node.right)
+
+    # Combine results and return
+    return COMBINE(node.val, left, right)
+
+# Example: max depth
+def maxDepth(root):
+    if not root: return 0
+    return 1 + max(maxDepth(root.left), maxDepth(root.right))</pre>
+<h4>BST property</h4>
+<pre># Valid BST check with min/max bounds
+def isValid(node, lo=float('-inf'), hi=float('inf')):
+    if not node: return True
+    if not (lo < node.val < hi): return False
+    return isValid(node.left, lo, node.val) and \
+           isValid(node.right, node.val, hi)</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Maximum Depth, Diameter of Binary Tree</li>
+<li>Lowest Common Ancestor, Binary Tree Max Path Sum</li>
+<li>Validate BST, Kth Smallest in BST</li>
+<li>Serialize and Deserialize Binary Tree</li>
+</ul>
+<div class="tip-box"><p>When stuck on a tree problem, ask: "what do I need each recursive call to return?" Often the answer unlocks the whole solution.</p></div>`
+    },
+    {
+      title: 'Heaps / priority queues',
+      body: `<h4>Core idea</h4>
+<p>A heap gives you O(log n) insert and O(1) peek at min/max. Use it whenever you need to repeatedly find the smallest or largest element from a changing set.</p>
+<h4>Python heap (min-heap by default)</h4>
+<pre>import heapq
+
+heap = []
+heapq.heappush(heap, 3)
+heapq.heappush(heap, 1)
+min_val = heapq.heappop(heap)   # returns 1
+
+# Max-heap trick: negate values
+heapq.heappush(heap, -val)
+max_val = -heapq.heappop(heap)
+
+# Heapify in-place O(n):
+heapq.heapify(nums)</pre>
+<h4>Key patterns</h4>
+<ul>
+<li>Top K elements — push all, maintain heap of size K</li>
+<li>K-way merge — push (val, list_idx, elem_idx) from each list</li>
+<li>Running median — two heaps: max-heap for lower half, min-heap for upper</li>
+</ul>
+<h4>Template: top K frequent</h4>
+<pre>from collections import Counter
+freq = Counter(nums)
+# Use nlargest for clean top-K:
+return heapq.nlargest(k, freq.keys(), key=freq.get)</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Kth Largest Element, Top K Frequent Elements</li>
+<li>Merge K Sorted Lists</li>
+<li>Find Median from Data Stream</li>
+<li>Task Scheduler</li>
+</ul>
+<div class="tip-box"><p>Trigger: "find the K largest/smallest" or "process elements by priority". Running median with two heaps is a classic hard problem — know it cold.</p></div>`
+    }
+  ],
+  'tc-coding-depth': [
+    {
+      title: 'Graphs',
+      body: `<h4>Core idea</h4>
+<p>Graphs generalize trees — nodes with arbitrary connections. Most graph problems reduce to: build adjacency list → run BFS or DFS → track state carefully.</p>
+<h4>Representations</h4>
+<pre># Adjacency list (most common in interviews)
+graph = defaultdict(list)
+for u, v in edges:
+    graph[u].append(v)
+    graph[v].append(u)  # undirected</pre>
+<h4>Topological sort (for DAGs / dependency ordering)</h4>
+<pre># Kahn's algorithm (BFS-based)
+from collections import deque
+indegree = defaultdict(int)
+for u, v in edges:
+    indegree[v] += 1
+
+queue = deque([n for n in nodes if indegree[n] == 0])
+order = []
+while queue:
+    node = queue.popleft()
+    order.append(node)
+    for nei in graph[node]:
+        indegree[nei] -= 1
+        if indegree[nei] == 0:
+            queue.append(nei)</pre>
+<h4>Dijkstra's (weighted shortest path)</h4>
+<pre>import heapq
+dist = {node: float('inf') for node in graph}
+dist[src] = 0
+heap = [(0, src)]
+while heap:
+    d, u = heapq.heappop(heap)
+    if d > dist[u]: continue
+    for v, w in graph[u]:
+        if dist[u] + w < dist[v]:
+            dist[v] = dist[u] + w
+            heapq.heappush(heap, (dist[v], v))</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Course Schedule I & II (topological sort + cycle detection)</li>
+<li>Number of Connected Components, Redundant Connection</li>
+<li>Network Delay Time (Dijkstra's)</li>
+<li>Word Ladder (BFS on implicit graph)</li>
+</ul>
+<div class="tip-box"><p>Union-Find (Disjoint Set Union) is the cleanest approach for connected component and cycle problems. Worth learning the template.</p></div>`
+    },
+    {
+      title: 'Dynamic programming',
+      body: `<h4>Core idea</h4>
+<p>DP = recursion + memoization (top-down) or tabulation (bottom-up). The key is identifying the state and the recurrence relation. You don't need to master every DP problem — know the 6 core patterns.</p>
+<h4>The 6 patterns to know</h4>
+<ul>
+<li><strong>1D DP</strong> — Climbing Stairs, House Robber</li>
+<li><strong>2D grid DP</strong> — Unique Paths, Minimum Path Sum</li>
+<li><strong>Knapsack</strong> — Coin Change, Target Sum</li>
+<li><strong>LCS/LIS</strong> — Longest Common Subsequence, Longest Increasing Subsequence</li>
+<li><strong>String DP</strong> — Edit Distance, Palindrome Substrings</li>
+<li><strong>Interval DP</strong> — Burst Balloons, Matrix Chain (rare in interviews)</li>
+</ul>
+<h4>Template: top-down with memoization</h4>
+<pre>from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def dp(i, remaining):
+    if remaining == 0: return 1
+    if i >= len(nums) or remaining < 0: return 0
+    return dp(i+1, remaining - nums[i]) + dp(i+1, remaining)</pre>
+<h4>Template: coin change (bottom-up)</h4>
+<pre>def coinChange(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    for a in range(1, amount + 1):
+        for c in coins:
+            if a - c >= 0:
+                dp[a] = min(dp[a], dp[a-c] + 1)
+    return dp[amount] if dp[amount] != float('inf') else -1</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Climbing Stairs, House Robber, Coin Change</li>
+<li>Longest Common Subsequence, Edit Distance</li>
+<li>Word Break, Decode Ways</li>
+</ul>
+<div class="tip-box"><p>When you see overlapping subproblems in your recursive solution, that's DP. Start top-down with @lru_cache — it's easier to reason about and often fast enough.</p></div>
+<div class="warn-box"><p>Don't try to master all DP. Focus on the 6 patterns above. Big Tech rarely goes beyond these in interviews.</p></div>`
+    },
+    {
+      title: 'Tries',
+      body: `<h4>Core idea</h4>
+<p>A trie is a tree where each path from root to node spells a prefix. Ideal for autocomplete, prefix search, and dictionary-lookup problems. O(L) insert and search where L = word length.</p>
+<h4>Template: trie implementation</h4>
+<pre>class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.is_end = True
+
+    def search(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.is_end
+
+    def startsWith(self, prefix):
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return True</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Implement Trie (Prefix Tree)</li>
+<li>Word Search II (Trie + DFS backtracking)</li>
+<li>Design Add and Search Words</li>
+<li>Replace Words</li>
+</ul>
+<div class="tip-box"><p>Trie problems often combine with DFS/backtracking. Word Search II is the classic — it's a hard problem but the approach is clean once you see it.</p></div>`
+    },
+    {
+      title: 'Backtracking',
+      body: `<h4>Core idea</h4>
+<p>Backtracking = brute force DFS with early pruning. Build a solution step by step; if a partial solution can't lead to a valid answer, backtrack and try another path. All combination/permutation/subset problems live here.</p>
+<h4>Template: general backtrack</h4>
+<pre>def backtrack(start, current, result):
+    if is_solution(current):
+        result.append(list(current))  # copy!
+        return
+
+    for choice in get_choices(start):
+        if is_valid(choice):
+            current.append(choice)        # choose
+            backtrack(next_start, current, result)
+            current.pop()                 # unchoose</pre>
+<h4>Subsets vs combinations vs permutations</h4>
+<pre># Subsets (include or skip each element)
+def subsets(nums):
+    res = []
+    def bt(i, curr):
+        res.append(curr[:])
+        for j in range(i, len(nums)):
+            curr.append(nums[j])
+            bt(j+1, curr)
+            curr.pop()
+    bt(0, [])
+    return res
+
+# Permutations (all orderings)
+def permute(nums):
+    res = []
+    def bt(curr):
+        if len(curr) == len(nums):
+            res.append(curr[:])
+            return
+        for n in nums:
+            if n not in curr:
+                curr.append(n)
+                bt(curr)
+                curr.pop()
+    bt([])
+    return res</pre>
+<h4>Must-know problems</h4>
+<ul>
+<li>Subsets, Subsets II (with duplicates)</li>
+<li>Combination Sum, Permutations</li>
+<li>N-Queens, Sudoku Solver</li>
+<li>Palindrome Partitioning</li>
+</ul>
+<div class="tip-box"><p>The key insight: always copy the current list when adding to results (result.append(curr[:])). Appending the reference is a classic bug.</p></div>`
+    }
+  ],
+  'tc-system': [
+    {
+      title: 'URL shortener',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Hashing, DB schema design, read-heavy system scaling, redirect performance, and ID generation strategies.</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Read vs write ratio? (typically 100:1 read-heavy)</li>
+<li>URL expiration? Custom aliases?</li>
+<li>Analytics needed (click counts, geo)?</li>
+<li>Scale: how many URLs/day, redirects/sec?</li>
+</ul>
+<h4>Back-of-envelope estimates</h4>
+<ul>
+<li>100M URLs created/day → ~1200 writes/sec</li>
+<li>10B redirects/day → ~115K reads/sec</li>
+<li>500 bytes/URL × 100M/day = 50GB/day storage</li>
+</ul>
+<h4>Core design decisions</h4>
+<ul>
+<li><strong>ID generation</strong>: Base62 encode a counter (a-z, A-Z, 0-9) → 7 chars = 62⁷ = 3.5 trillion unique URLs</li>
+<li><strong>DB choice</strong>: SQL for ACID correctness on writes; add read replicas for scale</li>
+<li><strong>Caching</strong>: Redis with LRU for the hot 20% of URLs that get 80% of traffic</li>
+<li><strong>Redirect</strong>: 301 (permanent, cached by browser) vs 302 (temporary, goes through your servers) — choose 302 if you need click analytics</li>
+</ul>
+<h4>Schema</h4>
+<pre>urls table:
+  id          BIGINT PRIMARY KEY
+  short_code  VARCHAR(7) UNIQUE INDEX
+  original    TEXT
+  user_id     BIGINT
+  created_at  TIMESTAMP
+  expires_at  TIMESTAMP</pre>
+<h4>Scale-up path</h4>
+<ul>
+<li>Add CDN in front of redirect service</li>
+<li>Shard DB by short_code hash for writes</li>
+<li>Async analytics pipeline (Kafka → Spark → analytics DB)</li>
+</ul>
+<div class="tip-box"><p>This is a great "lead the design" problem. Start with clarifying questions, estimate scale, then propose the simplest design before adding complexity.</p></div>`
+    },
+    {
+      title: 'Notification system',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Fan-out strategies, async queues, delivery guarantees, multi-channel routing (push, SMS, email), and retry logic.</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Channels: push, email, SMS, in-app?</li>
+<li>Real-time vs best-effort delivery?</li>
+<li>Exactly-once or at-least-once delivery?</li>
+<li>User preferences / opt-outs?</li>
+<li>Scale: notifications per day?</li>
+</ul>
+<h4>Core components</h4>
+<ul>
+<li><strong>API layer</strong>: accepts notification events from upstream services</li>
+<li><strong>Message queue (Kafka)</strong>: decouples producers from consumers, absorbs spikes</li>
+<li><strong>Workers per channel</strong>: separate worker pools for push/email/SMS — different SLAs</li>
+<li><strong>Third-party providers</strong>: APNs/FCM for push, Twilio for SMS, SendGrid for email</li>
+<li><strong>Retry store (Redis/DB)</strong>: track delivery status, retry failed notifications with backoff</li>
+</ul>
+<h4>Fan-out strategies</h4>
+<ul>
+<li><strong>Fan-out on write</strong>: push to all follower queues immediately — fast reads, expensive for high-follower accounts</li>
+<li><strong>Fan-out on read</strong>: compute feed on read — works better for celebrities/large accounts</li>
+<li><strong>Hybrid</strong>: fan-out on write for normal users, fan-out on read for accounts with 1M+ followers</li>
+</ul>
+<h4>Deduplication</h4>
+<pre># Use idempotency key to prevent duplicate sends
+notification_id = hash(user_id + event_id + channel)
+if redis.get(notification_id):
+    return  # already sent
+redis.setex(notification_id, TTL_24H, 1)
+send_notification()</pre>
+<div class="tip-box"><p>Interviewers love asking about the celebrity problem — a user with 10M followers liked a post. Answer: hybrid fan-out. Know it cold.</p></div>`
+    },
+    {
+      title: 'E-commerce catalog',
+      body: `<h4>What the interviewer is testing</h4>
+<p>This is your home turf as a retail engineer. Search, filtering, inventory management, CDN strategy, and handling high-read / low-write workloads.</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Search + filter: full-text? faceted (size, color, brand)?</li>
+<li>Inventory: real-time accuracy or eventual consistency?</li>
+<li>Scale: catalog size, peak traffic (Black Friday)?</li>
+<li>Personalization: ranked results per user?</li>
+</ul>
+<h4>Core components</h4>
+<ul>
+<li><strong>Product DB</strong>: PostgreSQL for structured product data with JSONB for flexible attributes</li>
+<li><strong>Search layer</strong>: Elasticsearch for full-text + faceted filtering — sync from DB via change data capture</li>
+<li><strong>Inventory service</strong>: separate service with strong consistency — Redis for real-time stock counts, DB for source of truth</li>
+<li><strong>Image CDN</strong>: S3 + CloudFront for product images — serve multiple sizes</li>
+<li><strong>Cache</strong>: Redis for popular product pages, invalidated on price/inventory change</li>
+</ul>
+<h4>Inventory at scale</h4>
+<pre># Atomic decrement on Redis to prevent overselling
+stock = redis.decr(f"inventory:{sku_id}")
+if stock < 0:
+    redis.incr(f"inventory:{sku_id}")  # rollback
+    raise OutOfStockError()
+
+# Async: persist to DB
+publish_to_queue("inventory_update", {sku_id, new_stock})</pre>
+<h4>Schema highlights</h4>
+<pre>products: id, name, description, brand_id, category_id, attributes (JSONB)
+skus:     id, product_id, size, color, price, images[]
+inventory: sku_id, warehouse_id, quantity, reserved_qty</pre>
+<div class="tip-box"><p>You've lived this system. Bring your real context — mention inventory consistency challenges, peak traffic patterns (Black Friday), and SKU explosion. It signals depth.</p></div>`
+    },
+    {
+      title: 'News feed',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Fan-out at scale, feed ranking, caching strategy, and handling uneven follower distributions (the celebrity problem).</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Chronological or ranked feed?</li>
+<li>Max followers per user? (affects fan-out strategy)</li>
+<li>Real-time or near-real-time updates?</li>
+<li>What content types: posts, images, stories?</li>
+</ul>
+<h4>Fan-out on write (push model)</h4>
+<ul>
+<li>On post: async worker fans out to all followers' feed caches</li>
+<li>Feed cache: Redis sorted set keyed by user_id, scored by timestamp</li>
+<li>Feed read is O(1) — just read from cache</li>
+<li>Problem: celebrity with 50M followers = 50M cache writes per post</li>
+</ul>
+<h4>Fan-out on read (pull model)</h4>
+<ul>
+<li>On read: fetch posts from all followees, merge, sort</li>
+<li>Problem: slow reads if user follows thousands of accounts</li>
+</ul>
+<h4>Hybrid approach (what you should propose)</h4>
+<pre>if user.follower_count < CELEBRITY_THRESHOLD:  # e.g. 1M
+    fan_out_on_write(post, user.followers)
+else:
+    # Celebrity posts fetched at read time and merged
+    mark_as_celebrity_post(post)
+
+# On feed read:
+feed = get_from_cache(user_id)          # pre-computed feed
+celebrity_posts = fetch_celebrity_posts(user.following)
+return merge_and_rank(feed, celebrity_posts)</pre>
+<h4>Must discuss: feed ranking</h4>
+<ul>
+<li>Simple: chronological sort</li>
+<li>Advanced: ML model scoring (engagement probability, recency, relationship strength)</li>
+<li>In interview: mention ranking exists, offer to go deeper if asked</li>
+</ul>
+<div class="tip-box"><p>Lead with the hybrid fan-out without being asked. It shows you've thought about the hard edge cases, not just the happy path.</p></div>`
+    },
+    {
+      title: 'Payment processing',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Idempotency, exactly-once semantics, consistency under failure, fraud detection hooks, and compliance awareness.</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Payment methods: card, wallet, bank transfer?</li>
+<li>Exactly-once guarantees needed?</li>
+<li>Sync or async settlement?</li>
+<li>Fraud detection: real-time or async?</li>
+<li>Regulatory: PCI-DSS compliance scope?</li>
+</ul>
+<h4>The core challenge: idempotency</h4>
+<p>Network failures mean the client may retry. Without idempotency, you charge twice. Solution: idempotency keys.</p>
+<pre># Client generates idempotency key (UUID) per payment intent
+POST /payments
+Headers: Idempotency-Key: uuid-v4
+
+# Server side:
+existing = db.get(idempotency_key)
+if existing:
+    return existing.result   # return cached response
+result = process_payment()
+db.set(idempotency_key, result, ttl=24h)
+return result</pre>
+<h4>Two-phase design</h4>
+<ul>
+<li><strong>Authorization</strong>: reserve funds, run fraud checks, return auth code — synchronous</li>
+<li><strong>Capture</strong>: settle actual transfer — can be async, batched nightly</li>
+</ul>
+<h4>Ledger / double-entry bookkeeping</h4>
+<pre>-- Every transaction creates two entries (debit + credit)
+ledger:
+  id, account_id, amount, type (DEBIT|CREDIT),
+  reference_id, created_at
+
+-- Account balance = SUM(credits) - SUM(debits)
+-- Immutable: never update rows, only insert</pre>
+<h4>Failure handling</h4>
+<ul>
+<li>Outbox pattern: write payment event + DB record in same transaction, then publish to queue</li>
+<li>Saga pattern: distributed transaction with compensating actions on failure</li>
+</ul>
+<div class="tip-box"><p>Mention idempotency within the first 2 minutes — it signals you understand what makes payments hard vs a standard CRUD system.</p></div>
+<div class="warn-box"><p>Don't try to re-implement a payment processor. Mention Stripe/Adyen as the PSP layer. Interviewers want to see you design the layer on top of it.</p></div>`
+    },
+    {
+      title: 'Rate limiter / API gateway',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Distributed state, algorithm tradeoffs, Redis data structures, and system placement decisions.</p>
+<h4>Requirements to clarify</h4>
+<ul>
+<li>Per user, per IP, or per API key?</li>
+<li>Hard limit (drop) or soft limit (throttle/queue)?</li>
+<li>Distributed across multiple servers?</li>
+<li>Different limits per endpoint or tier?</li>
+</ul>
+<h4>Algorithms</h4>
+<ul>
+<li><strong>Token bucket</strong>: tokens refill at fixed rate; burst allowed up to bucket size. Most common.</li>
+<li><strong>Sliding window log</strong>: log each request timestamp, count in window. Accurate but memory-heavy.</li>
+<li><strong>Fixed window counter</strong>: count per fixed window (per minute). Simple but allows 2x burst at window boundary.</li>
+<li><strong>Sliding window counter</strong>: hybrid — fixes boundary burst issue with minimal overhead.</li>
+</ul>
+<h4>Redis implementation: token bucket</h4>
+<pre>-- Lua script (atomic execution in Redis)
+local key = KEYS[1]
+local capacity = tonumber(ARGV[1])
+local refill_rate = tonumber(ARGV[2])
+local now = tonumber(ARGV[3])
+local requested = tonumber(ARGV[4])
+
+local last = tonumber(redis.call('hget', key, 'last') or now)
+local tokens = tonumber(redis.call('hget', key, 'tokens') or capacity)
+
+-- Refill tokens based on elapsed time
+local elapsed = now - last
+tokens = math.min(capacity, tokens + elapsed * refill_rate)
+
+if tokens >= requested then
+    tokens = tokens - requested
+    redis.call('hset', key, 'tokens', tokens, 'last', now)
+    return 1  -- allowed
+else
+    return 0  -- rate limited
+end</pre>
+<h4>Where to place it</h4>
+<ul>
+<li>At the API gateway layer (before hitting your services)</li>
+<li>Client-side for additional protection (not a replacement)</li>
+<li>Per-service for internal rate limiting between microservices</li>
+</ul>
+<div class="tip-box"><p>Token bucket is the right default answer — say it confidently and explain why (handles bursts gracefully). Then mention the tradeoffs vs sliding window if asked.</p></div>`
+    },
+    {
+      title: 'Design YouTube (open-ended)',
+      body: `<h4>What the interviewer is testing</h4>
+<p>Your ability to drive an ambiguous problem from scratch. This is a senior signal — interviewers want to see you scope it, prioritize, and go deep on 2–3 areas rather than covering everything shallowly.</p>
+<h4>Step 1: Clarify and scope (first 5 min)</h4>
+<ul>
+<li>Upload flow? Streaming? Both?</li>
+<li>Search and recommendations? Comments?</li>
+<li>Scale: how many uploads/day, concurrent viewers?</li>
+<li>"I'll focus on upload + streaming — is that the right priority?"</li>
+</ul>
+<h4>Estimates</h4>
+<ul>
+<li>500 hours of video uploaded per minute</li>
+<li>1 billion hours watched per day → ~11M concurrent streams</li>
+<li>1 min 1080p video ≈ 150MB raw → encode to multiple resolutions</li>
+</ul>
+<h4>Upload pipeline</h4>
+<pre>Client → Upload Service → Raw Storage (S3)
+                        → Transcoding Queue (Kafka)
+                        → Transcoder Workers (FFmpeg)
+                            → Multiple resolutions (360p, 720p, 1080p, 4K)
+                            → Thumbnail extraction
+                        → CDN origin (encoded files)
+                        → Metadata DB (Postgres)
+                        → Search index (Elasticsearch)</pre>
+<h4>Streaming</h4>
+<ul>
+<li>Adaptive bitrate streaming (HLS/DASH) — client requests chunks, switches quality based on bandwidth</li>
+<li>CDN edge caches popular video chunks geographically — majority of traffic never hits your origin</li>
+<li>Long-tail videos (rarely watched) served from origin with CDN miss</li>
+</ul>
+<h4>Storage tiering</h4>
+<ul>
+<li>Hot (S3 Standard): videos uploaded in last 30 days</li>
+<li>Warm (S3 IA): 30–180 days old</li>
+<li>Cold (Glacier): 180+ days — 90% of content, rarely accessed</li>
+</ul>
+<div class="tip-box"><p>Don't try to design all of YouTube. Say "I'll focus on video upload and streaming — should I go deeper on search/recommendations after?" Driving scope is the senior signal here.</p></div>
+<div class="warn-box"><p>Practice saying your design out loud, not just thinking through it. Interviewers evaluate how you communicate tradeoffs in real-time, not just whether the design is correct.</p></div>`
+    }
+  ],
+  'tc-behavioral': [
+    {
+      title: 'Technical conflict',
+      body: `<h4>What they're really asking</h4>
+<p>Can you disagree respectfully, advocate for technical quality without derailing the team, and know when to commit even if you didn't win the argument?</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: set the technical context briefly — what was being built, what was at stake</li>
+<li><strong>Task</strong>: what was the specific disagreement? What were the competing positions?</li>
+<li><strong>Action</strong>: how did you raise the concern? How did you seek alignment? Did you escalate or find a middle path?</li>
+<li><strong>Result</strong>: what was decided? What was the outcome? What would you do differently?</li>
+</ul>
+<h4>Strong story ingredients</h4>
+<ul>
+<li>You disagreed with a more senior engineer or a PM — and you were right (or you compromised thoughtfully)</li>
+<li>You used data/evidence, not just opinion</li>
+<li>You advocated without blocking — proposed a path forward</li>
+<li>You show you can commit once a decision is made, even if you disagreed</li>
+</ul>
+<h4>Example arc</h4>
+<p>Team wanted to use a NoSQL store for a feature requiring strong consistency. I raised the concern with benchmarks and failure scenarios. We aligned on PostgreSQL with read replicas. Result: zero data consistency incidents post-launch.</p>
+<h4>Phrases that signal seniority</h4>
+<ul>
+<li>"I proposed we timebox an experiment to validate the assumption..."</li>
+<li>"I brought it to the group with data rather than just my opinion..."</li>
+<li>"We disagreed but I committed fully once the decision was made..."</li>
+</ul>
+<div class="tip-box"><p>Amazon LPs this hits: Have Backbone; Disagree and Commit. Frame your story so both show up — you pushed back AND you committed. That's the senior move.</p></div>`
+    },
+    {
+      title: 'Driving ambiguity',
+      body: `<h4>What they're really asking</h4>
+<p>Can you operate without perfect information? Can you define the problem when nobody else has, make a decision, and move the team forward?</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: describe the ambiguity — unclear requirements, missing ownership, undefined scope</li>
+<li><strong>Task</strong>: what needed to get done despite the ambiguity?</li>
+<li><strong>Action</strong>: how did you define the problem? Who did you align with? What assumptions did you make explicit?</li>
+<li><strong>Result</strong>: what shipped? What was the business outcome?</li>
+</ul>
+<h4>Strong story ingredients</h4>
+<ul>
+<li>You stepped into a vacuum — nobody was owning the problem</li>
+<li>You broke down the ambiguity into answerable questions</li>
+<li>You got alignment from stakeholders proactively</li>
+<li>You made a documented decision with stated assumptions</li>
+</ul>
+<h4>Example arc</h4>
+<p>Inherited a migration project with no spec, unclear scope, and two teams with conflicting opinions on the target state. I ran 3 alignment sessions, wrote a one-pager with explicit tradeoffs, got sign-off, and led the migration to completion in 8 weeks with no regressions.</p>
+<h4>Phrases that signal seniority</h4>
+<ul>
+<li>"The requirements were unclear so I drafted a decision doc with explicit assumptions..."</li>
+<li>"I identified the key stakeholders who needed to align and brought them together..."</li>
+<li>"Rather than waiting for clarity, I proposed a small experiment to de-risk the main uncertainty..."</li>
+</ul>
+<div class="tip-box"><p>This story is particularly strong from your current situation — you've been in migration work that probably had ambiguous scope. The challenge was real; mine it for specifics.</p></div>`
+    },
+    {
+      title: 'Cross-team influence',
+      body: `<h4>What they're really asking</h4>
+<p>Can you get things done without authority? Senior engineers at Big Tech must influence product, design, platform, and partner teams — often without a reporting relationship.</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: what needed to happen that required another team's buy-in or work?</li>
+<li><strong>Task</strong>: what was your goal? What were the barriers?</li>
+<li><strong>Action</strong>: how did you build alignment? Did you understand their priorities? Offer something?</li>
+<li><strong>Result</strong>: what shipped? What was the relationship like after?</li>
+</ul>
+<h4>Strong story ingredients</h4>
+<ul>
+<li>You needed another team to do something they weren't planning to do</li>
+<li>You understood their incentives and framed the ask in terms of their goals</li>
+<li>You removed blockers for them — took on extra work to make it easy to say yes</li>
+<li>You built a lasting relationship, not just a one-time win</li>
+</ul>
+<h4>Example arc</h4>
+<p>Needed the platform team to prioritize an API change to unblock our migration. I first understood their roadmap, then reframed the request as a prerequisite for a high-visibility project they cared about. I also offered to write the spec to reduce their effort. They prioritized it and we shipped 3 weeks earlier.</p>
+<h4>Phrases that signal seniority</h4>
+<ul>
+<li>"I first took time to understand what they were optimizing for..."</li>
+<li>"I made the cost of helping us as low as possible by doing the prep work myself..."</li>
+<li>"We established a shared success metric so both teams were rowing in the same direction..."</li>
+</ul>
+<div class="tip-box"><p>At Big Tech, influence without authority is a core senior competency. The best stories show you changed someone's priorities without going over their head.</p></div>`
+    },
+    {
+      title: 'Failure & learning',
+      body: `<h4>What they're really asking</h4>
+<p>Do you have self-awareness? Can you take ownership of mistakes without deflecting? Do you actually change behavior after failures?</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: what was the project/context?</li>
+<li><strong>Task</strong>: what were you responsible for?</li>
+<li><strong>Action</strong>: what went wrong? Be specific and own it — don't blame the team, tools, or circumstances</li>
+<li><strong>Result</strong>: what was the impact? What did you change? How has it affected your work since?</li>
+</ul>
+<h4>Common mistakes in this answer</h4>
+<ul>
+<li>Choosing a "failure" that's actually a humble brag ("I worked too hard...")</li>
+<li>Blaming others or circumstances</li>
+<li>Not showing concrete behavior change — just "I learned to communicate better"</li>
+<li>Choosing something so minor it signals low self-awareness</li>
+</ul>
+<h4>Strong story ingredients</h4>
+<ul>
+<li>Real impact — something broke in production, a deadline slipped, a stakeholder was surprised</li>
+<li>Clear ownership — "I made the wrong call because..."</li>
+<li>Specific change — "After this, I implemented X / started doing Y"</li>
+<li>Evidence it worked — "Since then, I've never had a similar issue because..."</li>
+</ul>
+<h4>Example arc</h4>
+<p>Shipped a migration without adequate rollback testing. A schema change caused a production incident that took 4 hours to recover from. I owned the postmortem, implemented a pre-migration checklist, and added rollback drills to our team's deploy process. Zero similar incidents since.</p>
+<div class="tip-box"><p>Interviewers respect engineers who can talk about real failures clearly and without flinching. Over-polished answers feel rehearsed and signal low self-awareness.</p></div>`
+    },
+    {
+      title: 'Mentorship story',
+      body: `<h4>What they're really asking</h4>
+<p>Do you invest in others' growth? Can you multiply the team's output — not just your own? This is a core senior engineering competency.</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: who were you mentoring and what was their starting point?</li>
+<li><strong>Task</strong>: what growth goal or challenge were they facing?</li>
+<li><strong>Action</strong>: what specifically did you do? Pair programming? Code reviews? Career conversations?</li>
+<li><strong>Result</strong>: how did they grow? What did they achieve? How did it benefit the team?</li>
+</ul>
+<h4>Strong story ingredients</h4>
+<ul>
+<li>You identified a specific gap and built a plan to address it</li>
+<li>You gave them real responsibility, not just busy work</li>
+<li>You gave candid feedback — not just encouragement</li>
+<li>The outcome is measurable: they got promoted, led a project, grew a skill</li>
+</ul>
+<h4>Example arc</h4>
+<p>Mentored a mid-level engineer who was strong technically but struggled to communicate trade-offs to stakeholders. I paired with them on three design reviews, giving feedback after each. Within 2 quarters they were independently leading design discussions. They were promoted to senior the following cycle.</p>
+<h4>Phrases that signal seniority</h4>
+<ul>
+<li>"I gave them a stretch project and stayed available without taking it back..."</li>
+<li>"I focused on teaching the thinking process, not just the answer..."</li>
+<li>"I gave them candid feedback about what was holding them back..."</li>
+</ul>
+<div class="tip-box"><p>The best mentorship stories show you cared about the person's growth, not just the team's output. That distinction comes through in the specifics you choose to share.</p></div>`
+    },
+    {
+      title: 'Business impact story',
+      body: `<h4>What they're really asking</h4>
+<p>Do you think like an engineer or like an owner? Senior engineers connect their technical work to outcomes the business cares about. This is what separates mid-level from senior in most Big Tech rubrics.</p>
+<h4>STAR structure</h4>
+<ul>
+<li><strong>Situation</strong>: what was the business context — what problem did the company need solved?</li>
+<li><strong>Task</strong>: what was your technical scope?</li>
+<li><strong>Action</strong>: what did you build or change?</li>
+<li><strong>Result</strong>: what was the measurable business outcome? Revenue, latency, conversion, cost, reliability?</li>
+</ul>
+<h4>Quantify everything you can</h4>
+<ul>
+<li>Latency reduced by X ms → conversion improved by Y%</li>
+<li>Infrastructure cost reduced by $X/month</li>
+<li>Deployment time from X hours to Y minutes → N fewer engineer-hours per week</li>
+<li>Incident rate reduced from X/quarter to Y/quarter</li>
+</ul>
+<h4>The framing shift</h4>
+<ul>
+<li>❌ "I built a caching layer for product pages"</li>
+<li>✅ "I built a caching layer that reduced product page latency from 800ms to 120ms — we saw a 3% improvement in add-to-cart conversion on those pages, which mapped to ~$2M ARR at our scale"</li>
+</ul>
+<h4>Mining from your retail context</h4>
+<ul>
+<li>Checkout performance improvements → conversion rate</li>
+<li>Search relevance improvements → engagement, add-to-cart</li>
+<li>Inventory accuracy → fewer oversells, fewer customer service tickets</li>
+<li>Deploy reliability → reduced rollback rate, faster feature velocity</li>
+</ul>
+<div class="tip-box"><p>You don't need exact numbers — approximations are fine. "Roughly $1–2M impact based on our conversion rate" is better than no number. Estimation signals business thinking.</p></div>`
+    }
+  ]
+};
+
+let state = { entries: [], topics: {}, openTopics: {} };
 
 function load() {
-  try { const s = localStorage.getItem('prep-v2'); if (s) state = JSON.parse(s); } catch(e){}
-  initDate();
+  try { const s = localStorage.getItem('prep-v3'); if (s) state = JSON.parse(s); } catch(e){}
+  document.getElementById('f-date').value = today();
   render();
 }
 
 function save() {
-  try { localStorage.setItem('prep-v2', JSON.stringify(state)); } catch(e){}
-}
-
-function initDate() {
-  const el = document.getElementById('f-date');
-  if (el) el.value = today();
+  try { localStorage.setItem('prep-v3', JSON.stringify(state)); } catch(e){}
 }
 
 function today() { return new Date().toISOString().slice(0,10); }
@@ -280,8 +1181,9 @@ function switchTab(t) {
   document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
-  const idx = ['dashboard','log','topics'].indexOf(t);
-  document.querySelectorAll('.tab')[idx].classList.add('active');
+  ['dashboard','log','topics'].forEach((name,i) => {
+    if (name === t) document.querySelectorAll('.tab')[i].classList.add('active');
+  });
 }
 
 function addEntry() {
@@ -290,30 +1192,36 @@ function addEntry() {
   if (!date || !topic) { alert('Please fill in date and topic.'); return; }
   state.entries.unshift({
     id: Date.now(),
-    date,
-    phase: parseInt(document.getElementById('f-phase').value),
-    type: document.getElementById('f-type').value,
-    topic,
-    problems: parseInt(document.getElementById('f-problems').value) || 0,
+    date, phase: parseInt(document.getElementById('f-phase').value),
+    type: document.getElementById('f-type').value, topic,
+    problems: parseInt(document.getElementById('f-problems').value)||0,
     notes: document.getElementById('f-notes').value.trim()
   });
   save(); render();
-  document.getElementById('f-topic').value = '';
-  document.getElementById('f-notes').value = '';
-  document.getElementById('f-problems').value = '0';
+  document.getElementById('f-topic').value='';
+  document.getElementById('f-notes').value='';
+  document.getElementById('f-problems').value='0';
   const t = document.getElementById('toast');
-  t.style.display = 'inline'; setTimeout(()=>t.style.display='none', 2000);
+  t.style.display='inline'; setTimeout(()=>t.style.display='none',2000);
 }
 
 function deleteEntry(id) {
   if (!confirm('Delete this entry?')) return;
-  state.entries = state.entries.filter(e => e.id !== id);
+  state.entries = state.entries.filter(e=>e.id!==id);
   save(); render();
 }
 
-function toggleTopic(key) {
-  state.topics[key] = !state.topics[key];
+function toggleTopic(key, checked) {
+  state.topics[key] = checked;
   save(); renderTopics(); updatePhaseProgress();
+}
+
+function toggleExpand(key) {
+  state.openTopics[key] = !state.openTopics[key];
+  const body = document.getElementById('body-'+key);
+  const arrow = document.getElementById('arrow-'+key);
+  if (body) body.classList.toggle('open', !!state.openTopics[key]);
+  if (arrow) arrow.classList.toggle('open', !!state.openTopics[key]);
 }
 
 function totalProblems() { return state.entries.reduce((s,e)=>s+(e.problems||0),0); }
@@ -323,32 +1231,30 @@ function calcStreak() {
   if (!days.length) return 0;
   const tod = today();
   const yest = new Date(Date.now()-864e5).toISOString().slice(0,10);
-  if (days[0] !== tod && days[0] !== yest) return 0;
-  let streak = 1, prev = days[0];
-  for (let i = 1; i < days.length; i++) {
-    const diff = (new Date(prev) - new Date(days[i])) / 864e5;
-    if (Math.round(diff) === 1) { streak++; prev = days[i]; } else break;
+  if (days[0]!==tod && days[0]!==yest) return 0;
+  let streak=1, prev=days[0];
+  for (let i=1;i<days.length;i++) {
+    const diff=(new Date(prev)-new Date(days[i]))/864e5;
+    if (Math.round(diff)===1){streak++;prev=days[i];}else break;
   }
   return streak;
 }
 
 function phaseProgress(phase) {
-  const entries = state.entries.filter(e => e.phase === phase);
+  const entries = state.entries.filter(e=>e.phase===phase);
   const solved = entries.reduce((s,e)=>s+(e.problems||0),0);
-  const probPct = Math.min(100, Math.round((solved / PHASE_TARGETS[phase-1]) * 100));
-  return Math.min(100, Math.round(probPct * 0.6 + Math.min(40, entries.length * 4)));
+  const probPct = Math.min(100,Math.round((solved/[15,35,40,20,10][phase-1])*100));
+  return Math.min(100,Math.round(probPct*0.6+Math.min(40,entries.length*4)));
 }
 
 function currentPhase() {
-  for (let p = 1; p <= 5; p++) { if (phaseProgress(p) < 80) return p; }
-  return 5;
+  for (let p=1;p<=5;p++){if(phaseProgress(p)<80)return p;}return 5;
 }
 
 function updatePhaseProgress() {
-  const el = document.getElementById('phase-bars');
-  if (!el) return;
-  el.innerHTML = PHASE_LABELS.map((label,i) => {
-    const pct = phaseProgress(i+1);
+  const el=document.getElementById('phase-bars'); if(!el)return;
+  el.innerHTML=PHASE_LABELS.map((label,i)=>{
+    const pct=phaseProgress(i+1);
     return `<div class="phase-row">
       <div class="phase-name">${label}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${PHASE_COLORS[i]}"></div></div>
@@ -358,27 +1264,23 @@ function updatePhaseProgress() {
 }
 
 function renderStreakGrid() {
-  const labels = document.getElementById('streak-labels');
-  const grid = document.getElementById('streak-grid');
-  if (!labels || !grid) return;
-  const logged = new Set(state.entries.map(e=>e.date));
-  const tod = today();
-  const DAY = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-  const days = [];
-  for (let i=13;i>=0;i--) {
-    const d = new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().slice(0,10));
-  }
-  labels.innerHTML = days.map(d=>`<div class="streak-lbl">${DAY[new Date(d+'T12:00:00').getDay()]}</div>`).join('');
-  grid.innerHTML = days.map(d=>`<div class="streak-day${logged.has(d)?' active':''}${d===tod?' today':''}" title="${d}"></div>`).join('');
+  const labels=document.getElementById('streak-labels');
+  const grid=document.getElementById('streak-grid');
+  if(!labels||!grid)return;
+  const logged=new Set(state.entries.map(e=>e.date));
+  const tod=today();
+  const DAY=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const days=[];
+  for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10));}
+  labels.innerHTML=days.map(d=>`<div class="streak-lbl">${DAY[new Date(d+'T12:00:00').getDay()]}</div>`).join('');
+  grid.innerHTML=days.map(d=>`<div class="streak-day${logged.has(d)?' active':''}${d===tod?' today':''}" title="${d}"></div>`).join('');
 }
 
 function renderLogTable(containerId, entries) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!entries.length) { el.innerHTML = '<div class="empty">No sessions logged yet.</div>'; return; }
-  const typeLabel = { coding:'Coding', system:'System design', behavioral:'Behavioral' };
-  el.innerHTML = `<table>
+  const el=document.getElementById(containerId); if(!el)return;
+  if(!entries.length){el.innerHTML='<div class="empty">No sessions logged yet.</div>';return;}
+  const typeLabel={coding:'Coding',system:'System design',behavioral:'Behavioral'};
+  el.innerHTML=`<table>
     <thead><tr><th>Date</th><th>Ph.</th><th>Area</th><th>Topic</th><th style="text-align:center">Probs</th><th>Notes</th><th></th></tr></thead>
     <tbody>${entries.map(e=>`<tr>
       <td style="white-space:nowrap;color:var(--text-dim)">${e.date}</td>
@@ -388,43 +1290,43 @@ function renderLogTable(containerId, entries) {
       <td style="text-align:center">${e.problems||'—'}</td>
       <td style="max-width:160px;font-size:12px;color:var(--text-dimmer)">${e.notes||'—'}</td>
       <td><button class="ghost" onclick="deleteEntry(${e.id})" title="Delete">✕</button></td>
-    </tr>`).join('')}</tbody>
-  </table>`;
+    </tr>`).join('')}</tbody></table>`;
 }
 
 function renderTopics() {
-  Object.keys(TOPICS).forEach(k => {
-    const el = document.getElementById(k);
-    if (!el) return;
-    el.innerHTML = TOPICS[k].map((t,i)=>{
-      const key = k+'-'+i;
+  Object.keys(TOPICS).forEach(groupKey => {
+    const container = document.getElementById(groupKey); if(!container)return;
+    container.innerHTML = TOPICS[groupKey].map((topic, i) => {
+      const key = groupKey+'-'+i;
       const done = !!state.topics[key];
-      return `<label class="check-label${done?' done':''}">
-        <input type="checkbox" ${done?'checked':''} onchange="toggleTopic('${key}')" />${t}
-      </label>`;
+      const open = !!state.openTopics[key];
+      return `<div class="topic-item">
+        <div class="topic-header" onclick="toggleExpand('${key}')">
+          <input type="checkbox" ${done?'checked':''} onclick="event.stopPropagation();toggleTopic('${key}',this.checked)" />
+          <span class="topic-title${done?' done':''}">${topic.title}</span>
+          <span class="topic-arrow${open?' open':''}" id="arrow-${key}">▶</span>
+        </div>
+        <div class="topic-body${open?' open':''}" id="body-${key}">${topic.body}</div>
+      </div>`;
     }).join('');
   });
 }
 
 function render() {
-  const problems = totalProblems();
-  const streak = calcStreak();
-  const sessions = state.entries.length;
-  const overall = Math.round([1,2,3,4,5].reduce((s,p)=>s+phaseProgress(p),0)/5);
-  const cp = currentPhase();
-
-  const set = (id,v) => { const el=document.getElementById(id); if(el) el.innerHTML=v; };
-  set('m-problems', problems);
-  set('m-streak', streak+'<span> days</span>');
-  set('m-streak-sub', streak > 0 ? 'keep it going' : 'start today');
-  set('m-overall', overall+'<span>%</span>');
-  set('m-phase-label', 'Phase '+cp+' of 5');
-  set('m-sessions', sessions);
-
+  const problems=totalProblems(),streak=calcStreak(),sessions=state.entries.length;
+  const overall=Math.round([1,2,3,4,5].reduce((s,p)=>s+phaseProgress(p),0)/5);
+  const cp=currentPhase();
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
+  set('m-problems',problems);
+  set('m-streak',streak+'<span> days</span>');
+  set('m-streak-sub',streak>0?'keep it going':'start today');
+  set('m-overall',overall+'<span>%</span>');
+  set('m-phase-label','Phase '+cp+' of 5');
+  set('m-sessions',sessions);
   updatePhaseProgress();
   renderStreakGrid();
-  renderLogTable('recent-log', state.entries.slice(0,5));
-  renderLogTable('all-log', state.entries);
+  renderLogTable('recent-log',state.entries.slice(0,5));
+  renderLogTable('all-log',state.entries);
   renderTopics();
 }
 
